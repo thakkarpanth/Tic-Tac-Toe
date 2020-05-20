@@ -12,3 +12,13 @@ body {
   font-weight: bold;
   font-size: 60px;
 }
+
+.button {
+  padding: 25px;
+  background-color: lightslategray;
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 10px;
+
+  font-size: 20pt;
+}

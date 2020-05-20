@@ -12,6 +12,10 @@ const game = {
 function boxClicked(row, col) {
   console.log("box clicked is : " + row + " " + col);
 
+  if (game.state == END) {
+    alert("GAME IS OVER | RESTART TO PLAY AGAIN");
+    return;
+  }
   let clickbox = gameTable.children[0].children[row - 1].children[col - 1];
   clickbox.textContent = game.turn;
 
@@ -44,7 +48,7 @@ function isRowCaptured(row) {
   }
 
   if (flag) {
-    endGame(turn);
+    endGame(temp);
     restart();
   }
 }
@@ -63,7 +67,7 @@ function isColumnCaptured(col) {
   }
 
   if (flag) {
-    endGame(turn);
+    endGame(temp);
     restart();
   }
 }
@@ -86,7 +90,8 @@ function checkDiagonal(row, col) {
   let temp = "O";
   if (game.turn == "O") temp = "X";
   else temp = "O";
-  var count = 1;
+  let count = 1;
+  let count1 = 1;
   let tableRow = row - 1;
   let tableCol = col - 1;
 
@@ -121,7 +126,7 @@ function checkDiagonal(row, col) {
     if (tableRow >= 0 && tableCol <= 2) {
       let child = gameTable.children[0].children[tableRow].children[tableCol];
       if (child.textContent != temp) break;
-      else count++;
+      else count1++;
     } else break;
   }
 
@@ -133,12 +138,12 @@ function checkDiagonal(row, col) {
     if (tableRow <= 2 && tableCol >= 0) {
       let child = gameTable.children[0].children[tableRow].children[tableCol];
       if (child.textContent != temp) break;
-      else count++;
+      else count1++;
     } else break;
   }
 
   console.log(" " + count);
-  if (count == 3) {
+  if (count == 3 || count1 == 3) {
     endGame(temp);
     restart();
   }
@@ -165,6 +170,7 @@ function restart() {
   playerSpan.textContent = game.turn;
   game.state = STARTED;
 
+  game.move = 0;
   Array.from(document.getElementsByTagName("td")).forEach((cell) => {
     cell.textContent = "";
   });
