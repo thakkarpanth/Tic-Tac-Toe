@@ -43,7 +43,10 @@ function isRowCaptured(row) {
     }
   }
 
-  if (flag) endGame(turn);
+  if (flag) {
+    endGame(turn);
+    restart();
+  }
 }
 
 function isColumnCaptured(col) {
@@ -59,11 +62,14 @@ function isColumnCaptured(col) {
     }
   }
 
-  if (flag) endGame(turn);
+  if (flag) {
+    endGame(turn);
+    restart();
+  }
 }
 
 function nextTurn() {
-  if (game.state == ENDED) {
+  if (game.state == END) {
     return;
   }
   game.move++;
@@ -132,8 +138,10 @@ function checkDiagonal(row, col) {
   }
 
   console.log(" " + count);
-  if (count == 3) endGame(temp);
-
+  if (count == 3) {
+    endGame(temp);
+    restart();
+  }
   // if(row != col && (row + col != 4)) return ;
   // let diag1 = {
 
@@ -150,4 +158,14 @@ function endGame(winner) {
   game.state = END;
 }
 
-function restart() {}
+function restart() {
+  if (Math.random() > 0.5) game.turn = "O";
+  else game.turn = "X";
+
+  playerSpan.textContent = game.turn;
+  game.state = STARTED;
+
+  Array.from(document.getElementsByTagName("td")).forEach((cell) => {
+    cell.textContent = "";
+  });
+}
